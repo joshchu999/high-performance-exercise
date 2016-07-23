@@ -1,6 +1,7 @@
 package idv.trashchu.exercise.highperformance
 
 import akka.actor.ActorLogging
+import idv.trashchu.exercise.highperformance.entity.Profile
 import spray.routing.HttpServiceActor
 
 /**
@@ -9,8 +10,8 @@ import spray.routing.HttpServiceActor
 class HighPerformanceHttpService extends HttpServiceActor with ActorLogging {
 
   def receive = runRoute {
-    import spray.httpx.SprayJsonSupport._
     import HighPerformanceJsonProtocol._
+    import spray.httpx.SprayJsonSupport._
 
     path("") {
       get {
@@ -18,6 +19,8 @@ class HighPerformanceHttpService extends HttpServiceActor with ActorLogging {
       } ~
       post {
         entity(as[Profile]) { profile =>
+//          complete(profile)
+          MyDatabase.profiles.store(profile)
           complete(profile)
         }
       }
