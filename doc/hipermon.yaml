@@ -1,0 +1,191 @@
+# HiPerMon
+swagger: '2.0'
+info:
+  title: HiPerMon API
+  description: A high performance monster game API which is implemented using scala, akka, spray, and cassandra
+  version: "1.0.0"
+# the domain of the service
+host: 127.0.0.1:8080
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /
+paths:
+  /users/{userID}:
+    put:
+      summary: Update user's location
+      description: This endpoint is used to update the user's location and returns the monsters near the user.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: userID
+          in: path
+          description: The user ID
+          required: true
+          type: string
+          format: uuid
+        - name: requestBody
+          in: body
+          description: The request body
+          required: true
+          schema:
+            type: object
+            required:
+              - x
+              - y
+            properties:
+              x:
+                type: integer
+                format: int32
+                description: The location x
+              y:
+                type: integer
+                format: int32
+                description: The location y
+            example:
+              x: 324
+              y: 902
+      tags:
+        - Users
+      responses:
+        200:
+          description: Update user's location successfully and return the monsters near the user.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                description: Return code
+              message:
+                type: string
+                description: Return message
+              monsters:
+                type: array
+                description: An array of monsters
+                items:
+                  type: object
+                  properties:
+                    monsterID:
+                      type: string
+                      format: uuid
+                      description: The monster ID
+                    categoryID:
+                      type: integer
+                      format: int32
+                      description: The monster's category ID
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /users/{userID}/catch:
+    post:
+      summary: Catch monster
+      description: This endpoint is used to catch the monster and returns the result.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: userID
+          in: path
+          description: The user ID
+          required: true
+          type: string
+          format: uuid
+        - name: requestBody
+          in: body
+          description: The request body
+          required: true
+          schema:
+            type: object
+            required:
+              - monsterID
+            properties:
+              monsterID:
+                type: string
+                format: uuid
+                description: The monster ID that the user wants to catch
+            example:
+              monsterID: "3ee4c6d7-30d7-4d89-ba75-ab43e29907ae"
+      tags:
+        - Users
+      responses:
+        200:
+          description: Catch result
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                description: Return code
+              message:
+                type: string
+                description: Return message
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /users/{userID}/pets:
+    get:
+      summary: List the user's pets
+      description: This endpoint returns the user's pets.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: userID
+          in: path
+          description: The user ID
+          required: true
+          type: string
+          format: uuid
+      tags:
+        - Users
+      responses:
+        200:
+          description: List result
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                description: Return code
+              message:
+                type: string
+                description: Return message
+              pets:
+                type: array
+                description: An array of pets
+                items:
+                  type: object
+                  properties:
+                    monsterID:
+                      type: string
+                      format: uuid
+                      description: The monster ID
+                    categoryID:
+                      type: integer
+                      format: int32
+                      description: The monster's category ID
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        description: Return code
+      message:
+        type: string
+        description: Return message
