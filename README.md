@@ -17,6 +17,6 @@ re-stop
 The log will be saved in the logs folder. 
 
 ## Documentation ##
-- [HTML API documentation](https://github.com/joshchu999/high-performance-exercise/doc/hipermon.html)
-- [Swagger JSON API documentation](https://github.com/joshchu999/high-performance-exercise/doc/hipermon.json)
-- [Cassandra Schema](https://github.com/joshchu999/high-performance-exercise/doc/high-performance.cql)
+- [HTML API documentation](https://github.com/joshchu999/high-performance-exercise/blob/master/doc/hipermon.html)
+- [Swagger JSON API documentation](https://github.com/joshchu999/high-performance-exercise/blob/master/doc/hipermon.json)
+- [Cassandra Schema](https://github.com/joshchu999/high-performance-exercise/blob/master/doc/high-performance.cql)
